@@ -21,33 +21,37 @@ operations.forEach(op => {
 
         if (num1 === "") {
             num1 = Number(resultScreen.value);
-            resultScreen.value = "";
         }
         
-        operation = event.target.textContent
+        if (num1 && !operation) {
+            operation = event.target.textContent
+            resultScreen.value += operation
+        }
     }
 });
 
 result.onclick = function () {
     let resultScreen = document.getElementById("resultado");
 
-    num2 = Number(resultScreen.value)
+    num2 = Number(resultScreen.value.substr(resultScreen.value.indexOf(operation)+1))
 
-    switch (operation) {
-        case "+":
-            resultScreen.value = num1 + num2;
-            break;
-        case "-":
-            resultScreen.value = num1 - num2;
-            break;
-        case "*":
-            resultScreen.value = num1 * num2;
-            break;
-        case "/":
-            resultScreen.value = num1 / num2;
-            break;
+    if (num2) {
+        switch (operation) {
+            case "+":
+                resultScreen.value = num1 + num2;
+                break;
+            case "-":
+                resultScreen.value = num1 - num2;
+                break;
+            case "*":
+                resultScreen.value = num1 * num2;
+                break;
+            case "/":
+                resultScreen.value = num1 / num2;
+                break;
+        }
+    } else {
+        resultScreen.value = "Erro de operação"
     }
-
-    num1, num2, operation = ""
 }
 
