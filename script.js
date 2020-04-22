@@ -3,14 +3,23 @@ let num2 = "";
 let operation = "";
 let numbers = [...document.getElementsByClassName("numero")];
 let operations = [...document.getElementsByClassName("operacao")];
-let result = document.getElementsByClassName("resultar")[0]
+let resultButton = document.getElementsByClassName("resultar")[0]
+let result = ""
 
 numbers.forEach(number => {
     number.onclick = function (event) {
-        if (num1 === "" || num2 === "") {
+        if (result == '') {
             let resultScreen = document.getElementById("resultado");
-            if (event.target.textContent === '.' && resultScreen.value.indexOf('.') !== -1) return;
-            resultScreen.value += event.target.textContent;
+
+            if (operation == "") {
+                if (event.target.textContent === '.' && num1.indexOf('.') !== -1) return;
+                num1 += event.target.textContent;
+                resultScreen.value += event.target.textContent;
+            } else {
+                if (event.target.textContent === '.' && num2.indexOf('.') !== -1) return;
+                num2 += event.target.textContent;
+                resultScreen.value += event.target.textContent;
+            }
         }
     }
 });
@@ -19,35 +28,36 @@ operations.forEach(op => {
     op.onclick = function (event) {
         let resultScreen = document.getElementById("resultado");
 
-        if (num1 === "") {
-            num1 = Number(resultScreen.value);
-        }
-        
-        if (num1 && !operation) {
+        if (num1 !== '' && operation == '') {
             operation = event.target.textContent
             resultScreen.value += operation
         }
     }
 });
 
-result.onclick = function () {
+resultButton.onclick = function () {
     let resultScreen = document.getElementById("resultado");
 
-    num2 = Number(resultScreen.value.substr(resultScreen.value.indexOf(operation)+1))
+    num1 = Number(num1)
+    num2 = Number(num2)
 
     if (num2) {
         switch (operation) {
             case "+":
-                resultScreen.value = num1 + num2;
+                result = num1 + num2
+                resultScreen.value = result;
                 break;
             case "-":
-                resultScreen.value = num1 - num2;
+                result = num1 - num2
+                resultScreen.value = result;
                 break;
             case "*":
-                resultScreen.value = num1 * num2;
+                result = num1 * num2
+                resultScreen.value = result;
                 break;
             case "/":
-                resultScreen.value = num1 / num2;
+                result = num1 / num2
+                resultScreen.value = result;
                 break;
         }
     } else {
